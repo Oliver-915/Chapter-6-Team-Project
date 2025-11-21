@@ -33,7 +33,7 @@ def contact_menu():
 def contact_add():
     #accepts no arguments
     #adds a contact to the list
-    print("Add contacts here. Input "." if you do not have anything to put.")
+    print("Add contacts here. Input nothing if you do not have anything to put.")
     name = input("Name: ")
     address = input("Street Address: ")
     phone = input("Phone Number: ")
@@ -51,7 +51,45 @@ def contact_add():
     
     
 def contact_search():
-    pass
+    #accepts no arguments
+    #searches a contact from the list
+    #displays info
+    print("Type the name below of the contact you would like to view")
+    search_request = input("Name: ")
+    try:
+        myfile = open("contacts.txt", "r")
+        
+        name = myfile.readline()
+        
+        while name != "" and found == False:
+            address = myfile.readline()
+            phone = myfile.readline()
+            email = myfile.readline()
+            
+            nane = desc.restrip("\n")
+            if name.lower() == search.lower(): # deterine if record is found
+                print("\nRecord Found!")
+                print("Name:", name)
+                print("Address:", address)
+                print("phone:", phone)
+                print("email:", email)
+                found = True
+                
+            # get the next description
+            name = myfile.readline()
+            
+        myfile.close()
+        
+        
+       
+        if not found:
+            print("\n The record was not found \n")
+            
+            
+    except Exception as e:
+        print("Error: Error reading file")
+    
+
     
 def contact_edit():
     pass 
