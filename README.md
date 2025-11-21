@@ -6,13 +6,13 @@ Allen Le, Oliver Albert
 The program is a contact management system, that allows users to store and retrieve contact information. Users should be able to add, search, edit, delete, and display all contacts.
 The program is made of 7 functions.
 
-Function 1 (contact_manager): A main function to drive the program
-Function 2 (contact_menu): A function to display the menu and return the choice
-Function 3 (contact_add): An add contact function that will add a contact to the file
-Function 4 (contact_search): A search contact function that will search the file for a contact and return the information for that contact, if found
-Function 5 (contact_edit): An edit contact function that will use the search contact function to find someone and change the information if found
-Function 6 (contact_delete): A delete contact function that will use the search contact function to find someone and delete the information, if found
-Function 7 (contact_display): A display contacts function that displays all contacts and their information in a readable format
+1. Function 1 (contact_manager): A main function to drive the program
+2. Function 2 (contact_menu): A function to display the menu and return the choice
+3. Function 3 (contact_add): An add contact function that will add a contact to the file
+4. Function 4 (contact_search): A search contact function that will search the file for a contact and return the information for that contact, if found
+5. Function 5 (contact_edit): An edit contact function that will use the search contact function to find someone and change the information if found
+6. Function 6 (contact_delete): A delete contact function that will use the search contact function to find someone and delete the information, if found
+7. Function 7 (contact_display): A display contacts function that displays all contacts and their information in a readable format
 
 The program contains the file contacts.txt file to store and retrieve contacts.
 Each record will hold the following fields:
