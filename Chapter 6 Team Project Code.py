@@ -29,8 +29,11 @@ def contact_search():
         #open the file in read
         contact_file = open('contacts.txt', 'r')
         
+        #prime loop
+        name = "blank"
+        
         #loop to read each line
-        while info != '' or found != True:
+        while not found or name == '':
             name = contact_file.readline()
             address = contact_file.readline()
             number = contact_file.readline()
@@ -57,7 +60,7 @@ def contact_search():
             print("\nNo Contact Found.\n")
         
         #confirm
-        while found = True:
+        while found == True:
             confirm = input(str("\nIs this what you wanted? (y/n): "))
             if confirm == "y":
                 choice = "1"
