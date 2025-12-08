@@ -16,13 +16,67 @@ def contact_search():
     
     # prime loop
     choice = "0"
-    contact_file = open('contacts.txt', 'r')
+    
     
     #loop while choice is unconfirmed
-    while choice.lower() != "q":
-        search = str(input("Enter a Name, Address, Phone Number, or Email Address (q to quit): "))
+    while choice.lower() != "1":
+        #get input
+        search = str(input("Enter a name to look up contacts for (1 to quit): "))
         
+        #set search status
+        found = False
         
+        #open the file in read
+        contact_file = open('contacts.txt', 'r')
+        
+        #loop to read each line
+        while info != '' or found != True:
+            name = contact_file.readline()
+            address = contact_file.readline()
+            number = contact_file.readline()
+            email = contact_file.readline()
+            
+            #strip new line
+            name = name.rstrip('\n')
+            address = address.rstrip('\n')
+            number = number.rstrip('\n')
+            email = email.rstrip('\n')
+            
+            if name.lower() == search.lower():
+                print("\nContact Found\n")
+                print("Name:", name)
+                print("Address:", address)
+                print("Phone Number:", number)
+                print("Email:", email)
+                found = True
+                
+        coffee_file.close()
+        
+        #search status = false
+        if not found:
+            print("\nNo Contact Found.\n")
+        
+        #confirm
+        while found = True:
+            confirm = input(str("\nIs this what you wanted? (y/n): "))
+            if confirm == "y":
+                choice = "1"
+                found = False
+                print("\nContact Confirmed\n")
+                return name, address, number, email
+            elif confirm == "n":
+                found = False
+                confirm = input(str("Try again? (y/n): "))
+                if confirm == "y":
+                    print("Reseting\n")
+                elif confirm == "n":
+                    choice = "1"
+                else:
+                    print("Input Error, Try again")
+            else:
+                print("Input Error, Try again")
+        
+            
     
 def contact_edit():
     pass 
