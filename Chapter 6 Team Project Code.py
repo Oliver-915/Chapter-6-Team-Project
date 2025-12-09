@@ -11,17 +11,16 @@ def contact_search():
     # main accepts no arguments
     # asks for a string
     # looks for the string in contacts.txt + verification
-    # loop 2-3 if not found
+    # loop until blank if not found
     # if found, return entire contact and ask the user to confirm.
     
     # prime loop
-    choice = "0"
+    try_again = "y"
     
-    
-    #loop while choice is unconfirmed
-    while choice.lower() != "1":
+    #loop until try_again = no
+    while try_again.lower() == "y":
         #get input
-        search = str(input("Enter a name to look up contacts for (1 to quit): "))
+        search = input(str("Enter a name to look up contacts for: "))
         
         #set search status
         found = False
@@ -30,11 +29,10 @@ def contact_search():
         contact_file = open('contacts.txt', 'r')
         
         #prime loop
-        name = "blank"
+        name = contact_file.readline()
         
         #loop to read each line
-        while not found or name == '':
-            name = contact_file.readline()
+        while name != '' and not found:
             address = contact_file.readline()
             number = contact_file.readline()
             email = contact_file.readline()
@@ -46,39 +44,39 @@ def contact_search():
             email = email.rstrip('\n')
             
             if name.lower() == search.lower():
-                print("\nContact Found\n")
+                print("\nContact Found")
                 print("Name:", name)
                 print("Address:", address)
                 print("Phone Number:", number)
                 print("Email:", email)
                 found = True
+            else:
+                name = contact_file.readline()
                 
-        coffee_file.close()
+        contact_file.close()
         
         #search status = false
         if not found:
             print("\nNo Contact Found.\n")
+            
+        #Try again?
+        try_again = input(str("Try again? (y/n): "))
         
-        #confirm
-        while found == True:
-            confirm = input(str("\nIs this what you wanted? (y/n): "))
-            if confirm == "y":
-                choice = "1"
-                found = False
-                print("\nContact Confirmed\n")
-                return name, address, number, email
-            elif confirm == "n":
-                found = False
-                confirm = input(str("Try again? (y/n): "))
-                if confirm == "y":
-                    print("Reseting\n")
-                elif confirm == "n":
-                    choice = "1"
-                else:
-                    print("Input Error, Try again")
-            else:
-                print("Input Error, Try again")
-        
+        while try_again.lower() != "y" and try_again.lower() != "n": #validation
+            print("Input Error, Try again")
+            try_again = input(str("Try again? (y/n): "))
+            
+        if try_again.lower() == "y":
+            print("Reseting\n")
+        elif try_again.lower() == "n":
+            print("Returning\n")
+            return name, address, number, email
+    
+    print("\nContact Found")
+    print("Name:", name)
+    print("Address:", address)
+    print("Phone Number:", number)
+    print("Email:", email)
             
     
 def contact_edit():
