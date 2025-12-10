@@ -1,3 +1,5 @@
+import os
+
 def contact_manager():
     contact_menu()
     
@@ -9,31 +11,33 @@ def contact_menu():
     print("Please choose one of the following options...")
     print("(1) Add Contact"+("\n")+"(2) Search Contact"+("\n")+"(3) Edit Contact"+("\n")+"(4) Delete Contact"+("\n")+"(5) Display All Contacts"+("\n")+"(6) Exit")
     menu_selection = int(input("\nEnter your selection here: "))
-    if menu_selection == 1:
-        print("\nSelected Option: Add Contact\n")
-        contact_add()
-    if menu_selection == 2:
-        print("\nSelected Option: Search Contact\n")
-        contact_search()
-    if menu_selection == 3:
-        print("\nSelected Option: Edit Contact\n")
-        contact_edit()
-    if menu_selection == 4:
-        print("\nSelected Option: Delete Contact\n")
-        contact_delete()
-    if menu_selection == 5:
-        print("\nSelected Option: Display All Contacts\n")
-        contact_display()
-    if menu_selection == 6:
-        print("\nSelected Option: Exit\n")
-        exit()
-    
-    
+    while menu_selection > 0 or menu_selection < 7:
+        if menu_selection == 1:
+            print("\nSelected Option: Add Contact\n")
+            contact_add()
+        elif menu_selection == 2:
+            print("\nSelected Option: Search Contact\n")
+            contact_search()
+        elif menu_selection == 3:
+            print("\nSelected Option: Edit Contact\n")
+            contact_edit()
+        elif menu_selection == 4:
+            print("\nSelected Option: Delete Contact\n")
+            contact_delete()
+        elif menu_selection == 5:
+            print("\nSelected Option: Display All Contacts\n")
+            contact_display()
+        elif menu_selection == 6:
+            print("\nSelected Option: Exit\n")
+            print("Thank you for using Contact Manager")
+        else:
+            print("Invalid input, Try Again")
+            menu_selection = int(input("\nEnter your selection here: "))
     
 def contact_add():
     #accepts no arguments
     #adds a contact to the list
-    print("Add contacts here. Input "." if you do not have anything to put.")
+    print('Add contacts here. Input "." if you do not have anything to put.')
     name = input("Name: ")
     address = input("Street Address: ")
     phone = input("Phone Number: ")
@@ -49,7 +53,7 @@ def contact_add():
     myfile.close()
       
 def contact_search():
-    # main accepts no arguments
+    # accepts no arguments
     # asks for a string
     # looks for the string in contacts.txt + verification
     # loop until blank if not found
@@ -120,10 +124,38 @@ def contact_delete():
     pass 
     
 def contact_display():
-    pass
+    # accepts no arguments
+    # loops and displays all contacts in the contacts.txt in a readable format
+    # when a line is empty quit loop
+    
+    #open the file in read
+    contact_file = open('contacts.txt', 'r')
+        
+    #prime loop
+    name = contact_file.readline()
+    
+    #loop to read each line
+    while name != '':
+        address = contact_file.readline()
+        number = contact_file.readline()
+        email = contact_file.readline()
+        
+        #strip new line
+        name = name.rstrip('\n')
+        address = address.rstrip('\n')
+        number = number.rstrip('\n')
+        email = email.rstrip('\n')
+        
+        #print all in readable format
+        print("\nContact Found")
+        print("Name:", name)
+        print("Address:", address)
+        print("Phone Number:", number)
+        print("Email:", email)
+        
+        #ends loop if empty
+        name = contact_file.readline()
+            
+    contact_file.close()
 
-def exit():
-    #exit accepts no arguments
-    #returns thank you message
-    #ends the program
-    print("Thank you for using Contact Manager")
+
