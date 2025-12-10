@@ -71,12 +71,6 @@ def contact_search():
         elif try_again.lower() == "n":
             print("Returning\n")
             return name, address, number, email
-    
-    print("\nContact Found")
-    print("Name:", name)
-    print("Address:", address)
-    print("Phone Number:", number)
-    print("Email:", email)
             
     
 def contact_edit():
