@@ -11,7 +11,7 @@ def contact_menu():
     print("Please choose one of the following options...")
     print("(1) Add Contact"+("\n")+"(2) Search Contact"+("\n")+"(3) Edit Contact"+("\n")+"(4) Delete Contact"+("\n")+"(5) Display All Contacts"+("\n")+"(6) Exit")
     menu_selection = int(input("\nEnter your selection here: "))
-    while menu_selection > 0 or menu_selection < 7:
+    while menu_selection > 0 and menu_selection < 7:
         if menu_selection == 1:
             print("\nSelected Option: Add Contact\n")
             contact_add()
@@ -117,8 +117,33 @@ def contact_search():
             print("Returning\n")
             return name, address, number, email
             
-def contact_edit():
-    pass 
+def contact_edit(name, address, number, email):
+    # accepts 4 arguments and uses os module
+    # asks what to change
+    # input to replace the arguments
+    # loop to write contacts.txt to temp file replacing found arguments with input
+    
+    found = False
+    
+    # print options
+    print("What do you want to change?")
+    print("Name (1):", name)
+    print("Address (2):", address)
+    print("Phone Number (3):", number)
+    print("Email (4):", email)
+    print("Quit (5):")
+    
+    # verification and input
+    choice = input(int("=> "))
+    while choice > 0 and choice < 6:
+        print("Invalid input, try again")
+        choice = input(int("=> "))
+    
+    if choice == 1:
+    
+    
+        
+    
     
 def contact_delete():
     pass 
