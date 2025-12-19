@@ -11,38 +11,53 @@ def contact_menu():
     print("Please choose one of the following options...")
     print("(1) Add Contact"+("\n")+"(2) Search Contact"+("\n")+"(3) Edit Contact"+("\n")+"(4) Delete Contact"+("\n")+"(5) Display All Contacts"+("\n")+"(6) Exit")
     menu_selection = int(input("\nEnter your selection here: "))
+    searched = False
     
-    while menu_selection > 0 and menu_selection < 7:
+    while True:
         if menu_selection == 1:
             print("\nSelected Option: Add Contact\n")
             contact_add()
         elif menu_selection == 2:
             print("\nSelected Option: Search Contact\n")
-            contact_search()
+            name, address, number, email = contact_search()
+            searched = True
         elif menu_selection == 3:
-            print("\nSelected Option: Edit Contact\n")
-            contact_edit()
+            if searched:
+                print("\nSelected Option: Edit Contact\n")
+                contact_edit(name, address, number, email)
+            else:
+                print("Please search first\n")
         elif menu_selection == 4:
-            print("\nSelected Option: Delete Contact\n")
-            contact_delete()
+            if searched:
+                print("\nSelected Option: Delete Contact\n")
+                contact_delete(name)
+                searched = False
+            else:
+                print("Please search first\n")
         elif menu_selection == 5:
             print("\nSelected Option: Display All Contacts\n")
             contact_display()
         elif menu_selection == 6:
             print("\nSelected Option: Exit\n")
             print("Thank you for using Contact Manager")
+            quit()
         else:
             print("Invalid input, Try Again")
+            menu_selection = int(input("\nEnter your selection here: "))
+            
+        print("Please choose one of the following options...")
+        print("(1) Add Contact"+("\n")+"(2) Search Contact"+("\n")+"(3) Edit Contact"+("\n")+"(4) Delete Contact"+("\n")+"(5) Display All Contacts"+("\n")+"(6) Exit")
+        if menu_selection > 0 and menu_selection < 7:
             menu_selection = int(input("\nEnter your selection here: "))
     
 def contact_add():
     #accepts no arguments
     #adds a contact to the list
     print('Add contacts here. Input "." if you do not have anything to put.')
-    name = input("Name: ")
-    address = input("Street Address: ")
-    phone = input("Phone Number: ")
-    email = input("Email Address: ")
+    name = input("Name: ") or "."
+    address = input("Street Address: ") or "."
+    phone = input("Phone Number: ") or "."
+    email = input("Email Address: ") or "."
     
     myfile = open('contacts.txt', 'a')
     
@@ -136,32 +151,38 @@ def contact_edit(name, address, number, email):
     print("Quit (5):")
     
     # verification and input
-    choice = input(int("=> "))
-    while choice > 0 and choice < 6:
-        print("Invalid input, try again")
-        choice = input(int("=> "))
+    choice = int(input("=> "))
+    while not found:
+        if choice <= 0 or choice >= 6:
+            print("Invalid input, try again")
+            choice = int(input("=> "))
     
     if choice == 1:
-        name = input("New Name: ")
+        name = input("New Name: ") or name
+        found = True 
     elif choice == 2:
-        address = input("New Address: ")
+        address = input("New Address: ") or address
+        found = True 
     elif choice == 3:
-        number = input("New Phone Number: ")
+        number = input("New Phone Number: ") or number
+        found = True 
     elif choice == 4:
-        email = input("New Email: ")
+        email = input("New Email: ") or email
+        found = True 
     elif choice == 5:
         return name, address, number, email
     
+    #open files
     infile = open('contacts.txt', 'r')
     outfile = open('temp.txt', 'w')
     
+    #prime loop
     old_name = infile.readline()
+    old_address = infile.readline()
+    old_number = infile.readline()
+    old_email = infile.readline()
     
-    while old_name != '':
-        old_address = infile.readline()
-        old_number = infile.readline()
-        old_email = infile.readline()
-        
+    while old_name != '' or old_address != '' or old_number != '' or old_email != '' :      
         old_name = old_name.rstrip('\n')
         old_address = old_address.rstrip('\n')
         old_number = old_number.rstrip('\n')
@@ -179,22 +200,28 @@ def contact_edit(name, address, number, email):
             outfile.write(old_email + '\n')
             
         old_name = infile.readline()
+    
+    #close files
     infile.close()
     outfile.close()
     
-    os.remove('contacts.txt')
-    os.rename('temp.txt', 'contacts.txt')
-    print("Contact changed.")
+    #remove and rename files
+    if found:
+        os.remove('contacts.txt')
+        os.rename('temp.txt', 'contacts.txt')
+        print("Contact changed.")
     
-def contact_delete():
+   
+
+def contact_delete(name):
     # accepts name argument
-    # writes contacts.txt
-    
+    # writes a temp file using contacts.txt without name and attached contacts
+
     confirm = input(f"Are you sure you want to delete {name}? (y/n): ")
     if confirm.lower() != "y":
         print("Delete cancelled.")
-        return infile = open('contacts.txt', 'r')
-    
+        return 
+
     # open files
     infile = open('contacts.txt', 'r')
     outfile = open('temp.txt', 'w')
@@ -208,26 +235,28 @@ def contact_delete():
         email = infile.readline()
 
         # strip newline characters
-        name_stripped = name.rstrip('\n')
-        address_stripped = address.rstrip('\n')
-        number_stripped = number.rstrip('\n')
-        email_stripped = email.rstrip('\n')
+        name_delete = current_name.rstrip('\n')
+        address_delete = address.rstrip('\n')
+        number_delete = number.rstrip('\n')
+        email_delete = email.rstrip('\n')
 
         # write all contacts that do NOT match the name
-        if name_stripped.lower() != name_to_delete.lower():
-            outfile.write(name_stripped + '\n')
-            outfile.write(address_stripped + '\n')
-            outfile.write(number_stripped + '\n')
-            outfile.write(email_stripped + '\n')
+        if name_delete.lower() != name.lower():
+            outfile.write(name_delete + '\n')
+            outfile.write(address_delete + '\n')
+            outfile.write(number_delete + '\n')
+            outfile.write(email_delete + '\n')
         else:
-            print(f"Contact '{name_to_delete}' deleted.")
+            deleted = True
 
         # read next contact
-        name = infile.readline()
+        current_name = infile.readline()
 
     infile.close()
     outfile.close()
     
+    print(f"Contact '{name}' deleted.")
+
 def contact_display():
     # accepts no arguments
     # loops and displays all contacts in the contacts.txt in a readable format
@@ -238,12 +267,12 @@ def contact_display():
         
     #prime loop
     name = contact_file.readline()
+    address = contact_file.readline()
+    number = contact_file.readline()
+    email = contact_file.readline()
     
     #loop to read each line
-    while name != '':
-        address = contact_file.readline()
-        number = contact_file.readline()
-        email = contact_file.readline()
+    while name != '' or address != '' or number != '' or email != '':
         
         #strip new line
         name = name.rstrip('\n')
@@ -252,7 +281,6 @@ def contact_display():
         email = email.rstrip('\n')
         
         #print all in readable format
-        print("\nContact Found")
         print("Name:", name)
         print("Address:", address)
         print("Phone Number:", number)
@@ -260,7 +288,10 @@ def contact_display():
         
         #ends loop if empty
         name = contact_file.readline()
-            
+        address = contact_file.readline()
+        number = contact_file.readline()
+        email = contact_file.readline()
+        
     contact_file.close()
 
-
+contact_manager()
