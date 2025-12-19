@@ -62,21 +62,21 @@ menu -> exit (not a function)
 ***
 | `contact_search`    |   <return_type: string>      |   author: Allen Le    |
 | ------------------ | ------------- | ------------ |
-| `argument:type`    | takes input from the user for ____  |              |
-| `time:integer`     | calculates ______  | outputs ____             |
-| `name:string`      | takes input for name ___ | returns total |
+| takes input from the user for searching |              |
+| finds contacts and outputs it | outputs contacts   |
+| returns name, number, address, email |
 ***
-| `function name5`    |   <return_type:>     |  author: Allen Le    |
+| `contact_edit`    |   <return_type: no>     |  author: Allen Le    |
 | ------------------ | ------------- | ------------ |
-| `argument:type`    | takes input from the user for ____  |              |
-| `time:integer`     | calculates ______  | outputs ____             |
-| `name:string`      | takes input for name ___ | returns total |
+| takes input from the user for changes |              |
+| changes in temp file and replaces contacts_txt | outputs changed contacts.txt file   |
+| returns nothing |
 ***
-| `function name6`    |  <return_type:>     |  author: Allen Le   |
+| `contact_delete`    |  <return_type: boolean>     |  author: Allen Le   |
 | ------------------ | ------------- | ------------ |
-| `argument:type`    | takes input from the user for ____  |              |
-| `time:integer`     | calculates ______  | outputs ____             |
-| `name:string`      | takes input for name ___ | returns total |
+| takes input from contact_search |              |
+| removes input contacts_txt | outputs changed contacts.txt file  |
+| takes input for name | returns conformation boolean |
 ***
 | `function name7`    |  <return_type:>    |  author: Oliver Albert     |
 | ------------------ | ------------- | ------------ |
