@@ -30,8 +30,9 @@ def contact_menu():
         elif menu_selection == 4:
             if searched:
                 print("\nSelected Option: Delete Contact\n")
-                contact_delete(name)
-                searched = False
+                delete = contact_delete(name)
+                if delete:
+                    searched = False
             else:
                 print("Please search first\n")
         elif menu_selection == 5:
@@ -61,10 +62,16 @@ def contact_add():
     
     myfile = open('contacts.txt', 'a')
     
+    name = name.rstrip('\n')
+    address = address.rstrip('\n')
+    phone = phone.rstrip('\n')
+    email = email.rstrip('\n')
+    
     myfile.write(name + '\n')
     myfile.write(address + '\n')
     myfile.write(phone + '\n')
     myfile.write(email + '\n')
+    
     
     myfile.close()
       
@@ -156,19 +163,17 @@ def contact_edit(name, address, number, email):
         if choice <= 0 or choice >= 6:
             print("Invalid input, try again")
             choice = int(input("=> "))
+        else:
+            found = True 
     
     if choice == 1:
-        name = input("New Name: ") or name
-        found = True 
+        new_name = input("New Name: ") or name
     elif choice == 2:
-        address = input("New Address: ") or address
-        found = True 
+        new_address = input("New Address: ") or address
     elif choice == 3:
-        number = input("New Phone Number: ") or number
-        found = True 
+        new_number = input("New Phone Number: ") or number
     elif choice == 4:
-        email = input("New Email: ") or email
-        found = True 
+        new_email = input("New Email: ") or email
     elif choice == 5:
         return name, address, number, email
     
@@ -182,17 +187,33 @@ def contact_edit(name, address, number, email):
     old_number = infile.readline()
     old_email = infile.readline()
     
-    while old_name != '' or old_address != '' or old_number != '' or old_email != '' :      
+    while old_name != '' or old_address != '' or old_number != '' or old_email != '':      
         old_name = old_name.rstrip('\n')
         old_address = old_address.rstrip('\n')
         old_number = old_number.rstrip('\n')
         old_email = old_email.rstrip('\n')
         
         if old_name.lower() == name.lower():
-            outfile.write(name + '\n')
-            outfile.write(address + '\n')
-            outfile.write(number + '\n')
-            outfile.write(email + '\n')
+            if choice == 1:
+                outfile.write(new_name + '\n')
+                outfile.write(old_address + '\n')
+                outfile.write(old_number + '\n')
+                outfile.write(old_email + '\n')
+            elif choice == 2:
+                outfile.write(old_name + '\n')
+                outfile.write(new_address + '\n')
+                outfile.write(old_number + '\n')
+                outfile.write(old_email + '\n')
+            elif choice == 3:
+                outfile.write(old_name + '\n')
+                outfile.write(old_address + '\n')
+                outfile.write(new_number + '\n')
+                outfile.write(old_email + '\n')
+            elif choice == 4:
+                outfile.write(old_name + '\n')
+                outfile.write(old_address + '\n')
+                outfile.write(old_number + '\n')
+                outfile.write(new_email + '\n')
         else:
             outfile.write(old_name + '\n')
             outfile.write(old_address + '\n')
@@ -200,6 +221,9 @@ def contact_edit(name, address, number, email):
             outfile.write(old_email + '\n')
             
         old_name = infile.readline()
+        old_address = infile.readline()
+        old_number = infile.readline()
+        old_email = infile.readline()
     
     #close files
     infile.close()
@@ -217,9 +241,12 @@ def contact_delete(name):
     # accepts name argument
     # writes a temp file using contacts.txt without name and attached contacts
 
+    delete = True
+    
     confirm = input(f"Are you sure you want to delete {name}? (y/n): ")
     if confirm.lower() != "y":
-        print("Delete cancelled.")
+        print("Delete cancelled.\n")
+        delete = False
         return 
 
     # open files
@@ -227,15 +254,15 @@ def contact_delete(name):
     outfile = open('temp.txt', 'w')
     
     # edit files
-    current_name = infile.readline()
+    name_delete = infile.readline()
     
-    while current_name != '':
+    while name_delete != '':
         address = infile.readline()
         number = infile.readline()
         email = infile.readline()
 
         # strip newline characters
-        name_delete = current_name.rstrip('\n')
+        name_delete = name_delete.rstrip('\n')
         address_delete = address.rstrip('\n')
         number_delete = number.rstrip('\n')
         email_delete = email.rstrip('\n')
@@ -250,12 +277,16 @@ def contact_delete(name):
             deleted = True
 
         # read next contact
-        current_name = infile.readline()
+        name_delete = infile.readline()
 
     infile.close()
     outfile.close()
     
-    print(f"Contact '{name}' deleted.")
+    os.remove('contacts.txt')
+    os.rename('temp.txt', 'contacts.txt')
+    
+    print(f"Contact '{name}' deleted. \n")
+    return delete
 
 def contact_display():
     # accepts no arguments
@@ -284,7 +315,7 @@ def contact_display():
         print("Name:", name)
         print("Address:", address)
         print("Phone Number:", number)
-        print("Email:", email)
+        print("Email:", email, "\n")
         
         #ends loop if empty
         name = contact_file.readline()
