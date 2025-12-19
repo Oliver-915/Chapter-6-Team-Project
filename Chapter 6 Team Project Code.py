@@ -123,6 +123,7 @@ def contact_edit(name, address, number, email):
     # asks what to change
     # input to replace the arguments
     # loop to write contacts.txt to temp file replacing found arguments with input
+    # renames temp and deletes contact
     
     found = False
     
@@ -187,14 +188,18 @@ def contact_edit(name, address, number, email):
     
 def contact_delete():
     # accepts name argument
-    # deletes a contact using temp file
+    # writes contacts.txt
     
     confirm = input(f"Are you sure you want to delete {name}? (y/n): ")
     if confirm.lower() != "y":
         print("Delete cancelled.")
         return infile = open('contacts.txt', 'r')
+    
+    # open files
+    infile = open('contacts.txt', 'r')
     outfile = open('temp.txt', 'w')
     
+    # edit files
     current_name = infile.readline()
     
     while current_name != '':
