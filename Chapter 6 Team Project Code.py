@@ -11,6 +11,7 @@ def contact_menu():
     print("Please choose one of the following options...")
     print("(1) Add Contact"+("\n")+"(2) Search Contact"+("\n")+"(3) Edit Contact"+("\n")+"(4) Delete Contact"+("\n")+"(5) Display All Contacts"+("\n")+"(6) Exit")
     menu_selection = int(input("\nEnter your selection here: "))
+    
     while menu_selection > 0 and menu_selection < 7:
         if menu_selection == 1:
             print("\nSelected Option: Add Contact\n")
@@ -140,13 +141,79 @@ def contact_edit(name, address, number, email):
         choice = input(int("=> "))
     
     if choice == 1:
+        name = input("New Name: ")
+    elif choice == 2:
+        address = input("New Address: ")
+    elif choice == 3:
+        number = input("New Phone Number: ")
+    elif choice == 4:
+        email = input("New Email: ")
+    elif choice == 5:
+        return name, address, number, email
     
+    infile = open('contacts.txt', 'r')
+    outfile = open('temp.txt', 'w')
     
+    old_name = infile.readline()
+    
+    while old_name != '':
+        old_address = infile.readline()
+        old_number = infile.readline()
+        old_email = infile.readline()
         
+        old_name = old_name.rstrip('\n')
+        old_address = old_address.rstrip('\n')
+        old_number = old_number.rstrip('\n')
+        old_email = old_email.rstrip('\n')
+        
+        if old_name.lower() == name.lower():
+            outfile.write(name + '\n')
+            outfile.write(address + '\n')
+            outfile.write(number + '\n')
+            outfile.write(email + '\n')
+        else:
+            outfile.write(old_name + '\n')
+            outfile.write(old_address + '\n')
+            outfile.write(old_number + '\n')
+            outfile.write(old_email + '\n')
+            
+        old_name = infile.readline()
+    infile.close()
+    outfile.close()
     
+    os.remove('contacts.txt')
+    os.rename('temp.txt', 'contacts.txt')
+    print("Contact changed.")
     
 def contact_delete():
-    pass 
+    # accepts name argument
+    # deletes a contact using temp file
+    
+    confirm = input(f"Are you sure you want to delete {name}? (y/n): ")
+    if confirm.lower() != "y":
+        print("Delete cancelled.")
+        return infile = open('contacts.txt', 'r')
+    outfile = open('temp.txt', 'w')
+    
+    current_name = infile.readline()
+    
+    while current_name != '':
+        address = infile.readline()
+        number = infile.readline()
+        email = infile.readline()
+        
+        current_name = current_name.rstrip('\n')
+        address = address.rstrip('\n')
+        number = number.rstrip('\n')
+        email = email.rstrip('\n')
+        
+        if current_name.lower() != name.lower():
+            outfile.write(current_name + '\n')
+            outfile.write(address + '\n')
+            outfile.write(number + '\n')
+            outfile.write(email + '\n')
+            
+        current_name = infile.readline()
     
 def contact_display():
     # accepts no arguments
