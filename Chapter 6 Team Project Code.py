@@ -206,19 +206,27 @@ def contact_delete():
         address = infile.readline()
         number = infile.readline()
         email = infile.readline()
-        
-        current_name = current_name.rstrip('\n')
-        address = address.rstrip('\n')
-        number = number.rstrip('\n')
-        email = email.rstrip('\n')
-        
-        if current_name.lower() != name.lower():
-            outfile.write(current_name + '\n')
-            outfile.write(address + '\n')
-            outfile.write(number + '\n')
-            outfile.write(email + '\n')
-            
-        current_name = infile.readline()
+
+        # strip newline characters
+        name_stripped = name.rstrip('\n')
+        address_stripped = address.rstrip('\n')
+        number_stripped = number.rstrip('\n')
+        email_stripped = email.rstrip('\n')
+
+        # write all contacts that do NOT match the name
+        if name_stripped.lower() != name_to_delete.lower():
+            outfile.write(name_stripped + '\n')
+            outfile.write(address_stripped + '\n')
+            outfile.write(number_stripped + '\n')
+            outfile.write(email_stripped + '\n')
+        else:
+            print(f"Contact '{name_to_delete}' deleted.")
+
+        # read next contact
+        name = infile.readline()
+
+    infile.close()
+    outfile.close()
     
 def contact_display():
     # accepts no arguments
